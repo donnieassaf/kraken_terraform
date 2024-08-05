@@ -1,6 +1,3 @@
-
-
-
 resource "aws_dms_replication_instance" "main" {
   replication_instance_class = "dms.t3.medium"
   allocated_storage          = 100

@@ -121,6 +121,53 @@ terragrunt destroy
 
 This will remove all resources created by this module.
 
+
+## AWS Database Migration Service (DMS) Integration
+
+This section describes the setup of AWS Database Migration Service (DMS) to work with the AWS RDS Aurora PostgreSQL cluster. The DMS configuration is managed using Terraform with Terragrunt, which relies on outputs from the RDS module.
+
+### Dependencies on RDS Outputs
+
+To ensure that DMS is correctly set up to work with the Aurora RDS cluster, we use outputs from the RDS module. Terragrunt allows us to reference these outputs for seamless integration. The following are key points:
+
+- **DMS Replication Instance**: Configured to interact with the Aurora RDS cluster, utilizing security groups and other settings derived from the RDS setup.
+- **DMS Endpoints**: Created to connect to the RDS cluster using the DNS address provided by the RDS module's outputs.
+
+### Terraform Configuration
+
+Here is the basic configuration for DMS:
+
+#### Replication Instance
+
+- **`replication_instance_class`**: Defines the instance type for the DMS replication instance.
+- **`allocated_storage`**: Specifies the amount of storage allocated for the replication instance.
+- **`replication_instance_id`**: Unique identifier for the replication instance.
+- **`vpc_security_group_ids`**: Security group IDs associated with the DMS instance, typically sourced from RDS outputs.
+- **`publicly_accessible`**: Set to `false` to ensure the instance is not accessible from outside the VPC.
+
+#### Source Endpoint
+
+- **`endpoint_id`**: Unique identifier for the DMS source endpoint.
+- **`endpoint_type`**: Type of endpoint, set to `source`.
+- **`engine_name`**: Specifies the database engine, in this case, `aurora-postgresql`.
+- **`username`** and **`password`**: Credentials for the source database, configured via Terraform variables.
+- **`server_name`**: The DNS address of the RDS cluster, provided by the RDS module's outputs.
+- **`port`** and **`database_name`**: Configuration details for connecting to the database.
+- **`ssl_mode`**: Enforces SSL connection for added security.
+
+#### IAM Role for DMS
+
+- **IAM Role**: Created to allow DMS to interact with VPC resources.
+- **IAM Policy Attachment**: Attaches the necessary policy to the role to enable DMS functionality.
+
+### Usage
+
+1. **Set Up DMS**: Apply the DMS configuration after deploying the RDS cluster. Ensure the RDS module outputs are properly referenced in the DMS configuration to integrate seamlessly.
+   
+2. **Verify Integration**: Check that DMS endpoints and replication instances are correctly connected to the Aurora cluster by verifying connectivity and performing test migrations.
+
+---
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
