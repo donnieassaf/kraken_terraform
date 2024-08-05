@@ -22,8 +22,7 @@ This repository contains a Python script designed to clean up Kubernetes pods in
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/your-username/kraken_terraform.git
 ```
 
 ### 2. Set Up a Virtual Environment
