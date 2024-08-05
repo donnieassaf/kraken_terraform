@@ -20,4 +20,5 @@ resource "aws_dms_endpoint" "source" {
   server_name            = var.db_endpoint
   port                   = 5432
   database_name          = var.db_name
+  ssl_mode               = "require" 
 }
