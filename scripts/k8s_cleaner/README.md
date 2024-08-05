@@ -131,10 +131,6 @@ If you created test pods specifically for this script, you can clean up by delet
 kubectl delete pod successful-pod failed-pod oom-pod
 ```
 
-## Contributing
-
-Feel free to submit issues, fork the repository, and send pull requests. Contributions are welcome!
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
