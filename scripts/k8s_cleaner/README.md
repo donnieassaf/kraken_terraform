@@ -8,7 +8,7 @@ This repository contains a Python script designed to clean up Kubernetes pods in
 
 - **Targeted Namespace Cleanup:** Specify one or more Kubernetes namespaces, and the script will clean up the pods in those namespaces.
 - **Handles Common Pod States:** The script identifies and deletes pods that have completed, failed, or encountered errors, including out-of-memory (OOMKilled) pods.
-- **Command-Line and Importable:** Run the script directly from the command line or import the cleanup function into another Python script.
+- **Command-Line Execution:** Run the script directly from the command line.
 
 ## Prerequisites
 
@@ -57,19 +57,19 @@ Replace `myenv/` with your virtual environment directory name if it's different.
 
 ### Running the Script from the Command Line
 
-To run the script and clean up pods in a specific namespace:
+To run the script and clean up pods in a specific namespace, use the following command:
 
 ```bash
-python k8s_clean.py <namespace1> <namespace2> ...
+python3 k8s_clean.py <namespace1> <namespace2> ...
 ```
 
 For example:
 
 ```bash
-python k8s_clean.py default
+python3 k8s_clean.py default
 ```
 
-This will delete any pods in the `default` namespace that are in a `Failed`, `Succeeded`, `OOMKilled`, or `Error` state.
+This script will delete any pods in the specified namespace(s) that are in a `Failed`, `Succeeded`, `OOMKilled`, or `Error` state.
 
 
 ## Testing with Minikube
@@ -110,7 +110,7 @@ This command will list all the pods in the `default` namespace, showing their st
 After creating the test pods, you can run the cleanup script to remove the pods with `Failed`, `Succeeded`, or `OOMKilled` statuses:
 
 ```bash
-python k8s_clean.py default
+python3 k8s_clean.py default
 ```
 
 ### Verifying the Cleanup

@@ -1,39 +1,20 @@
 from kubernetes import client, config
-import sys
+from kubernetes.client.rest import ApiException
 
-# Function to clean up pods in specified namespaces
-def clean_pods(namespaces):
-    config.load_kube_config()  # Load the kubeconfig file to configure access to the cluster
-    v1 = client.CoreV1Api()    # Initialize the Kubernetes API client
-    deleted_pods = []          # List to store deleted pods information
+# Load configuration
+config.load_kube_config()
 
-    for namespace in namespaces:
-        try:
-            # Get all pods in the given namespace
-            pods = v1.list_namespaced_pod(namespace)
-            for pod in pods.items:
-                # Check pod status and delete if it's Failed, Succeeded, or has an OOMKilled/Error status
-                if pod.status.phase in ['Failed', 'Succeeded']:
-                    v1.delete_namespaced_pod(name=pod.metadata.name, namespace=namespace, body=client.V1DeleteOptions())
-                    deleted_pods.append((pod.metadata.name, pod.status.phase))
-                    print(f"Deleted pod {pod.metadata.name} with status {pod.status.phase}")
-        except client.exceptions.ApiException as e:
-            print(f"Exception when processing namespace {namespace}: {e}", file=sys.stderr)
+# Initialize API client
+api_instance = client.CoreV1Api()
 
-    return deleted_pods
+namespace = 'default'  # Modify as needed
 
-# Main block for command-line execution
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Clean up completed and failed pods.")
-    parser.add_argument('namespaces', metavar='N', type=str, nargs='+',
-                        help='A space separated list of Kubernetes namespaces.')
-    args = parser.parse_args()
-
-    # Run the cleanup process
-    deleted_pods = clean_pods(args.namespaces)
-    if deleted_pods:
-        print("Deleted pods:", deleted_pods)
-    else:
-        print("No pods were deleted.")
+try:
+    # List all pods in the namespace
+    pods = api_instance.list_namespaced_pod(namespace)
+    for pod in pods.items:
+        if pod.status.phase in ['Failed', 'Succeeded']:
+            print(f"Deleting pod: {pod.metadata.name} in namespace: {namespace}")
+            api_instance.delete_namespaced_pod(name=pod.metadata.name, namespace=namespace)
+except ApiException as e:
+    print(f"Exception when calling CoreV1Api: {e}")
