@@ -130,7 +130,3 @@ If you created test pods specifically for this script, you can clean up by delet
 ```bash
 kubectl delete pod successful-pod failed-pod oom-pod
 ```
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

@@ -146,10 +146,3 @@ Here is the basic configuration for DMS:
 1. **Set Up DMS**: Apply the DMS configuration after deploying the RDS cluster. Ensure the RDS module outputs are properly referenced in the DMS configuration to integrate seamlessly.
    
 2. **Verify Integration**: Check that DMS endpoints and replication instances are correctly connected to the Aurora cluster by verifying connectivity and performing test migrations.
-
----
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
