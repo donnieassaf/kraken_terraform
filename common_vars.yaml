@@ -1,0 +1,12 @@
+---
+accounts:
+  production:              '011097611608'
+aws_provider_version:      '4.50.0'
+null_provider_version:     '3.2.1'
+template_provider_version: '2.2.0'
+aws_default_region:        'ap-southeast-2'
+module_version:            'v1.1.11'
+module_repo:               "/Users/andrew/code/kraken_terraform/modules"
+
+
+

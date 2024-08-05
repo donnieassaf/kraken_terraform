@@ -1,0 +1,19 @@
+*.tfstate
+**/.terraform/*
+/.idea
+#.env
+.DS_Store
+.terragrunt-cache
+terragrunt
+**/*.zip
+node_modules
+.backup
+.tfstate
+.terraform.lock.hcl
+package-lock.json
+dist
+tfplan
+
+# Ignore all .tf files in the project EXCEPT for those within modules dir
+*.tf
+!modules/**/*.tf
