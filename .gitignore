@@ -17,3 +17,6 @@ tfplan
 # Ignore all .tf files in the project EXCEPT for those within modules dir
 *.tf
 !modules/**/*.tf
+
+# Ignore virtual environment
+myenv/
