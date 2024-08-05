@@ -15,5 +15,4 @@ variable "master_username" {
 variable "master_password" {
   type      = string
   default   = "supersecretpassword" # in a real world sceaniro this would be passed through secrets manager
-  sensitive = true
 }

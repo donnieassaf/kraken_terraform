@@ -1,4 +1,3 @@
-# Remote state configuration
 remote_state {
   backend = "s3"
   generate = {
