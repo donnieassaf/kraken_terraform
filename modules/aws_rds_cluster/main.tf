@@ -10,20 +10,20 @@ resource "aws_rds_cluster" "main" {
 }
 
 resource "aws_rds_cluster_instance" "writer" {
-  cluster_identifier      = aws_rds_cluster.main.id  # Corrected reference
+  cluster_identifier      = aws_rds_cluster.main.id
   instance_class          = var.instance_class
-  engine                  = aws_rds_cluster.main.engine  # Corrected reference
-  engine_version          = aws_rds_cluster.main.engine_version  # Corrected reference
+  engine                  = aws_rds_cluster.main.engine
+  engine_version          = aws_rds_cluster.main.engine_version
   identifier              = "${var.environment}-writer"
   publicly_accessible     = false
   apply_immediately       = true
 }
 
 resource "aws_rds_cluster_instance" "reader" {
-  cluster_identifier      = aws_rds_cluster.main.id  # Corrected reference
+  cluster_identifier      = aws_rds_cluster.main.id
   instance_class          = var.instance_class
-  engine                  = aws_rds_cluster.main.engine  # Corrected reference
-  engine_version          = aws_rds_cluster.main.engine_version  # Corrected reference
+  engine                  = aws_rds_cluster.main.engine
+  engine_version          = aws_rds_cluster.main.engine_version
   identifier              = "${var.environment}-reader"
   publicly_accessible     = false
   apply_immediately       = true
