@@ -4,25 +4,6 @@
 
 This project contains a Terraform module for setting up an AWS RDS Aurora PostgreSQL cluster with a writer and reader instance, as well as configuring AWS Database Migration Service (DMS) to facilitate database migrations. The setup uses Terragrunt for managing infrastructure as code across different environments and includes configuration for remote state storage in S3 and state locking using DynamoDB.
 
-
-## Project Structure
-
-```
-kraken_terraform/
-├── modules/
-│   └── aws_rds_cluster/
-│       ├── main.tf
-│       └── variables.tf
-├── production/
-│   ├── ap-southeast-2/
-│   │   ├── app/
-│   │   │   └── aws_rds_cluster/
-│   │   │       ├── terragrunt.hcl
-│   │   │       └── main.tf
-│   └── common_vars.yaml
-└── README.md
-```
-
 ## Requirements
 
 - **Terraform v1.0.0+**
