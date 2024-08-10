@@ -28,46 +28,52 @@ This project contains a Terraform module for setting up an AWS RDS Aurora Postgr
 
 ### 1. Clone the Repository
 
-
+```bash
 git clone https://github.com/your-username/kraken_terraform.git
-cd kraken_terraform/production/ap-southeast-2/app/aws_rds_cluster
-
+cd kraken_terraform
+```
 
 ### 2. Configure AWS CLI
 
 Ensure your AWS CLI is configured with credentials that have the necessary permissions:
 
-
+```bash
 aws configure
+```
 
-
-### 3. Update `module_repo` Path
+### 3. Update `module_repo` Path and AWS Account IDs
 
 Before running Terragrunt, update the `module_repo` path in `common_vars.yaml` to reflect the correct path on your local machine:
 
-
+```yaml
 module_repo: "/Users/andrew/code/kraken_terraform/modules"
+```
 
+Additionally, update the AWS account IDs in `common_vars.yaml` to match your AWS account:
 
-This path should point to the location of your Terraform modules directory.
+```yaml
+accounts:
+  production: 'YOUR_AWS_ACCOUNT_ID'
+```
 
-### 4. Initialize Terragrunt
+Replace `'YOUR_AWS_ACCOUNT_ID'` with your actual AWS account ID.
 
+### 4. Running Terragrunt for RDS
 
+To deploy the RDS Aurora PostgreSQL cluster, navigate to the appropriate directory and run Terragrunt:
+
+```bash
+cd production/ap-southeast-2/app/aws_rds_cluster
 terragrunt init
-
-
-This will set up the backend configuration, download necessary providers, and prepare the environment for deployment.
-
-### 5. Deploy the Infrastructure
-
-Review the plan and apply the changes:
-
 terragrunt plan
 terragrunt apply
+```
 
+This will set up the backend configuration, download necessary providers, and create the AWS RDS Aurora PostgreSQL cluster along with the necessary security groups and subnet configurations.
 
-This will create the AWS RDS Aurora PostgreSQL cluster along with the necessary security groups and subnet configurations.
+### Note on VPC Usage
+
+For simplicity, this setup uses the default VPC in the AWS account. In a real-world production environment, it is recommended to create and use a custom VPC with appropriate network configurations, such as private subnets, NAT gateways, and custom route tables, to enhance security and control over the infrastructure.
 
 ## Configuration
 
@@ -95,13 +101,14 @@ The following are some key input variables that can be customized in `variables.
 
 ## Cleanup
 
-To destroy the infrastructure:
+To destroy the infrastructure, use the following commands for each environment:
 
+### For RDS:
+
+```bash
+cd production/ap-southeast-2/app/aws_rds_cluster
 terragrunt destroy
-
-
-This will remove all resources created by this module.
-
+```
 
 ## AWS Database Migration Service (DMS) Integration
 
@@ -141,8 +148,28 @@ Here is the basic configuration for DMS:
 - **IAM Role**: Created to allow DMS to interact with VPC resources.
 - **IAM Policy Attachment**: Attaches the necessary policy to the role to enable DMS functionality.
 
-### Usage
+### Running Terragrunt for DMS
 
-1. **Set Up DMS**: Apply the DMS configuration after deploying the RDS cluster. Ensure the RDS module outputs are properly referenced in the DMS configuration to integrate seamlessly.
-   
-2. **Verify Integration**: Check that DMS endpoints and replication instances are correctly connected to the Aurora cluster by verifying connectivity and performing test migrations.
+After deploying the RDS cluster, you can set up the AWS Database Migration Service (DMS). Navigate to the DMS configuration directory and run Terragrunt:
+
+```bash
+cd production/ap-southeast-2/app/aws_dms
+terragrunt init
+terragrunt plan
+terragrunt apply
+```
+
+This will configure the DMS replication instance, endpoints, and associated resources using the outputs from the RDS module.
+
+### Verify Integration
+
+Check that DMS endpoints and replication instances are correctly connected to the Aurora cluster by verifying connectivity and performing test migrations.
+
+### Cleanup
+
+To destroy the DMS infrastructure:
+
+```bash
+cd production/ap-southeast-2/app/aws_dms
+terragrunt destroy
+```
